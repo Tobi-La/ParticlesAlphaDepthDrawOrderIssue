@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://shader.shader" type="Shader" id=1]
+[ext_resource path="res://smoke_01.png" type="Texture" id=2]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 5, 5 )
+
+[sub_resource type="SpatialMaterial" id=2]
+params_depth_draw_mode = 1
+albedo_color = Color( 0, 0.313726, 0.0509804, 1 )
+
+[sub_resource type="PlaneMesh" id=3]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
+shader_param/albedo = Color( 0.203922, 0.168627, 0, 1 )
+shader_param/albedo2 = Color( 1, 1, 1, 1 )
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/metallic_texture_channel = Plane( 1, 0, 0, 0 )
+shader_param/roughness_texture_channel = Plane( 1, 0, 0, 0 )
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
+
+[sub_resource type="SpatialMaterial" id=5]
+render_priority = -100
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 5 )
+size = Vector2( 3, 3 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0.00434396, 0.127833 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.485507, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.117647, 1, 1, 1, 0 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Floor" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="DustGround" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0443445, 0 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.461159, 0.887317, 0, -0.887317, 0.461159, 0.242144, 2.06838, 0.898334 )
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0.604502, 0 )
+cast_shadow = 0
+amount = 60
+local_coords = false
+mesh = SubResource( 6 )
+emission_shape = 2
+emission_box_extents = Vector3( 1, 1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
+hue_variation = 1.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.235672, 0.971833, 0, -0.971833, 0.235672, 0, 2.08548, 0 )
+shadow_enabled = true
