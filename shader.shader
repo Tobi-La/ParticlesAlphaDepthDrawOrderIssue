@@ -31,6 +31,6 @@ void fragment() {
 	ROUGHNESS = roughness_tex * roughness;
 	SPECULAR = specular;
 	
-	ALPHA = 1.0;
+//	ALPHA = 1.0;
 
 }
